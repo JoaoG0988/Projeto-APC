@@ -51,12 +51,20 @@ def ranking():
     print('Ainda não disponível')
 
 def instrucoes():
-    print('Use as setas para cima e para baixo para mover a nave')
-    print('Use a barra de espaço para atirar')
-    print('Pegue os combustíveis para ganhar pontos e aumentar seu combustível')
-    print('Evite os inimigos')
-    print('Se você colidir com um inimigo ou ficar sem combustível, o jogo acaba')
-    print('Aperte qualquer tecla para voltar ao menu')
+    print(" ")
+    print('Instruções do jogo:')
+    print(" ")
+    print('+='* 35)
+    print(" ")
+    print(' • Use as setas para cima e para baixo para mover a nave')
+    print(' • Use a barra de espaço para atirar')
+    print(' • Pegue os combustíveis para ganhar pontos e aumentar seu combustível')
+    print(' • Evite os inimigos')
+    print(' • Se você colidir com um inimigo ou ficar sem combustível, o jogo acaba')
+    print(' ')
+    print('+='* 35)
+    print(' ')
+    print('Aperte qualquer tecla para voltar ao menu do jogo')
     input()
     menu()
 
@@ -70,9 +78,9 @@ def main():
     # Algumas variaveis do jogo
     tamanho = 10
     largura_tela, altura_tela = 135*tamanho,10*tamanho
-    probX = 10
-    probF = 8
-    velo_player = 8
+    probX = 15
+    probF = 10
+    velo_player = 5
     velo_inimigo = 6
     velo_tiro = 10
     combus_quant = 1
@@ -91,7 +99,7 @@ def main():
     azul = (0,100,200)
     verde = (0,255,0)
     verde_escuro = (0,100,0)
-    amarelo = (255, 255, 0)
+    #amarelo = (255, 255, 0)
 
 
     # Criação da tela
@@ -101,7 +109,7 @@ def main():
     # Elementos do jogo
     jogador = pygame.Rect(0, 42, tamanho,tamanho)
     combust = [pygame.Rect(random.randint(1300, 2000),random.randint(0, 90), inimigo_largura, inimigo_altura) for _ in range(probF)]
-    inimigos = [pygame.Rect(random.randint(1350, 1900),random.randint(0, 90), inimigo_largura, inimigo_altura) for _ in range(probX)]
+    inimigos = [pygame.Rect(random.randint(1400, 1900),random.randint(0, 90), inimigo_largura, inimigo_altura) for _ in range(probX)]
     tiro = []
     tiro_status = False  
 
@@ -120,7 +128,7 @@ def main():
         texto_gameover = font2.render("Game Over", True, branco)
         texto_score = font2.render(f"Pontuação final: {score}", True, branco)
         texto_motivo = font2.render(f'{morte1}', True, branco)
-        tela.blit(texto_gameover, (largura_tela // 2 - texto_gameover.get_width() // 2, altura_tela // 2 - texto_gameover.get_height() // 2))
+        tela.blit(texto_gameover, (largura_tela // 2 - texto_gameover.get_width() // 2, altura_tela // 2 - texto_gameover.get_height() // 1))
         tela.blit(texto_score, (largura_tela // 2 - texto_score.get_width() // 2, altura_tela // 2 + 10))
         tela.blit(texto_motivo, (largura_tela // 2 - texto_motivo.get_width() // 2, altura_tela // 20))
 
@@ -134,14 +142,13 @@ def main():
         texto_gameover = font2.render("Game Over", True, branco)
         texto_score = font2.render(f"Pontuação final: {score}", True, branco)
         texto_motivo = font2.render(f'{morte2}', True, branco)
-        tela.blit(texto_gameover, (largura_tela // 2 - texto_gameover.get_width() // 2, altura_tela // 2 - texto_gameover.get_height() // 2))
+        tela.blit(texto_gameover, (largura_tela // 2 - texto_gameover.get_width() // 2, altura_tela // 2 - texto_gameover.get_height() // 1))
         tela.blit(texto_score, (largura_tela // 2 - texto_score.get_width() // 2, altura_tela // 2 + 10))
         tela.blit(texto_motivo, (largura_tela // 2 - texto_motivo.get_width() // 2, altura_tela // 20))
-
+        
         pygame.display.update()
         pygame.time.delay(6000)
         pygame.display.quit()
-
         menu()
 
 
@@ -163,6 +170,7 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
+            # Movimentação do jogador.
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     if jogador.y > 3:
@@ -176,12 +184,12 @@ def main():
                         
                 elif event.key == pygame.K_SPACE and len(tiro) < 9999999999:
                     if combustivel >= combust_tiro:
-                        tiros = pygame.Rect(jogador.x + jogador.height // 2 - 2, jogador.y, tamanho, tamanho)
+                        tiros = pygame.Rect(jogador.x + jogador.height // 2 - 2, jogador.y, tiro_largura, tiro_altura)
                         tiro.append(tiros)
                         tiro_status = True
                         combustivel -= combust_tiro
 
-        # Movimento do tiro da nave
+        # Movimento do tiro da nave.
         for tiros1 in tiro:
             tiros1.x += velo_tiro
             if tiros1.x <= 0:
@@ -195,13 +203,15 @@ def main():
 
             #Morte do jogador se ele for atingido por um inimigo
             if inimigo1.colliderect(jogador):
+                tela.fill(preto)
                 game_over2()
+                
 
             if inimigo1.x < -inimigo_largura:
                 inimigo1.x = random.randint(largura_tela, largura_tela + inimigo_largura)
                 inimigo1.y = random.randint(0, altura_tela - inimigo_altura)
 
-            #Eliminação do inimigo ao ser atingido
+            #Eliminação do inimigo ao ser atingido( se o inimigo for atingido,a pontuação é incrementada em 50).
             for tiros1 in tiro:
                 if tiros1.colliderect(inimigo1):
                     tiro.remove(tiros1)
@@ -221,13 +231,13 @@ def main():
                 combust1.y = random.randint(0, altura_tela - inimigo_altura)       
 
 
-            #Se o tiro atingir o combustivel, ele é incrementado em 3
+            #Se o combustivel encostar no jogador,o combustível é incrementado em 40
             for combust1 in combust:
                 if combust1.colliderect(jogador):
-                    combust.remove(combust1)
-                    combustivel += 40
                     combust1.x = 0
                     combust1.y = random.randint(100, largura_tela - 100)
+                    combustivel += 40
+                    
 
                         
                 
@@ -238,7 +248,9 @@ def main():
         # Quantidade de combustivel
         combustivel -= 0.1
         if combustivel <= 0:
-            game_over1()  # Game over se o combustivel acabar
+            tela.fill(preto)
+            game_over1()      # Game over se o combustivel acabar
+             
 
 
         # Para mostrar a nave,tiros,pontuação,combustivel
