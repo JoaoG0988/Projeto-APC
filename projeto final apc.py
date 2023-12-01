@@ -34,13 +34,16 @@ def menu():
             menu()
 
 def telainicial():
+    print(' ')
     print('Boas vindas ao ESTRAGAWARS !!! ')
+    print(' ')
     print('+='* 30)
-    print('Aperte Enter para iniciar o jogo.')
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_KP_ENTER:
-                menu()
+    print(' ')
+    print('Aperte qualquer tecla para começar !')
+    print(' ')
+    input()
+    menu()
+    
 
 
 
@@ -108,13 +111,13 @@ def main():
 
     # Elementos do jogo
     jogador = pygame.Rect(0, 42, tamanho,tamanho)
-    combust = [pygame.Rect(random.randint(1300, 2000),random.randint(0, 90), inimigo_largura, inimigo_altura) for _ in range(probF)]
-    inimigos = [pygame.Rect(random.randint(1400, 1900),random.randint(0, 90), inimigo_largura, inimigo_altura) for _ in range(probX)]
+    combust = [pygame.Rect(random.randint(1350, 2000),random.randint(0, 90), inimigo_largura, inimigo_altura) for _ in range(probF)]
+    inimigos = [pygame.Rect(random.randint(1400, 1900),random.randint(0, 80), inimigo_largura, inimigo_altura) for _ in range(probX)]
     tiro = []
     tiro_status = False  
 
     # Algumas variaveis do jogo
-    morte1 = 'Seu combustível esgotou'
+    morte1 = 'Seu combustível esgotou' 
     morte2 = 'Atingido pelo inimigo'
     score = 0
     combustivel = 400  # Quantidade inicial de combustivel
@@ -265,4 +268,4 @@ def main():
     #pygame.quit()
     #sys.exit()
 
-menu()
+telainicial()
