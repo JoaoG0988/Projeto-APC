@@ -39,7 +39,7 @@ def telainicial():
     print(' ')
     print('+='* 30)
     print(' ')
-    print('Aperte qualquer tecla para começar !')
+    print('Selecione qualquer tecla, em seguida aperte "Enter" para começar !')
     print(' ')
     input()
     menu()
@@ -67,7 +67,7 @@ def instrucoes():
     print(' ')
     print('+='* 35)
     print(' ')
-    print('Aperte qualquer tecla para voltar ao menu do jogo')
+    print('Selecione qualquer tecla, em seguida aperte "Enter" para voltar ao menu do jogo')
     input()
     menu()
 
@@ -111,14 +111,14 @@ def main():
 
     # Elementos do jogo
     jogador = pygame.Rect(0, 42, tamanho,tamanho)
-    combust = [pygame.Rect(random.randint(1350, 2000),random.randint(0, 90), inimigo_largura, inimigo_altura) for _ in range(probF)]
-    inimigos = [pygame.Rect(random.randint(1400, 1900),random.randint(0, 80), inimigo_largura, inimigo_altura) for _ in range(probX)]
+    combust = [pygame.Rect(random.randint(1400, 2000),random.randint(0, 90), inimigo_largura, inimigo_altura) for _ in range(probF)]
+    inimigos = [pygame.Rect(random.randint(1400, 2000),random.randint(0, 80), inimigo_largura, inimigo_altura) for _ in range(probX)]
     tiro = []
     tiro_status = False  
 
     # Algumas variaveis do jogo
     morte1 = 'Seu combustível esgotou' 
-    morte2 = 'Atingido pelo inimigo'
+    morte2 = 'Você foi tingido pelo inimigo'
     score = 0
     combustivel = 400  # Quantidade inicial de combustivel
     font = pygame.font.Font(None, 15)
@@ -128,7 +128,7 @@ def main():
 
     #Tela de game over.
     def game_over1():
-        texto_gameover = font2.render("Game Over", True, branco)
+        texto_gameover = font2.render("Game Over", True, vermelho)
         texto_score = font2.render(f"Pontuação final: {score}", True, branco)
         texto_motivo = font2.render(f'{morte1}', True, branco)
         tela.blit(texto_gameover, (largura_tela // 2 - texto_gameover.get_width() // 2, altura_tela // 2 - texto_gameover.get_height() // 1))
@@ -142,7 +142,7 @@ def main():
         
 
     def game_over2():
-        texto_gameover = font2.render("Game Over", True, branco)
+        texto_gameover = font2.render("Game Over", True, vermelho)
         texto_score = font2.render(f"Pontuação final: {score}", True, branco)
         texto_motivo = font2.render(f'{morte2}', True, branco)
         tela.blit(texto_gameover, (largura_tela // 2 - texto_gameover.get_width() // 2, altura_tela // 2 - texto_gameover.get_height() // 1))
@@ -210,7 +210,7 @@ def main():
                 game_over2()
                 
 
-            if inimigo1.x < -inimigo_largura:
+            if inimigo1.x < -20:
                 inimigo1.x = random.randint(largura_tela, largura_tela + inimigo_largura)
                 inimigo1.y = random.randint(0, altura_tela - inimigo_altura)
 
@@ -229,7 +229,7 @@ def main():
             pygame.draw.rect(tela,azul, combust1)
             combust1.x -= velo_inimigo
 
-            if combust1.x < -inimigo_largura:
+            if combust1.x < -20:
                 combust1.x = random.randint(largura_tela, largura_tela + inimigo_largura)
                 combust1.y = random.randint(0, altura_tela - inimigo_altura)       
 
