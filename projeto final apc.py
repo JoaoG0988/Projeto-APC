@@ -24,7 +24,7 @@ def menu():
     print('5 - Sair')
     escolha = int(input('Escolha uma opção : '))
     match escolha:
-        case 1: main() # Inicia o jogo 
+        case 1: main() # Inicia a janela do jogo.
         case 2: configs()
         case 3: ranking()
         case 4: instrucoes()
@@ -81,7 +81,7 @@ def main():
     # Algumas variaveis do jogo
     tamanho = 10
     largura_tela, altura_tela = 135*tamanho,10*tamanho
-    probX = 15
+    probX = 12
     probF = 10
     velo_player = 5
     velo_inimigo = 6
@@ -136,7 +136,7 @@ def main():
         tela.blit(texto_motivo, (largura_tela // 2 - texto_motivo.get_width() // 2, altura_tela // 20))
 
         pygame.display.update()
-        pygame.time.delay(6000)
+        pygame.time.delay(6000) # A tela de game over aparece por 6 segundos,fecha a janela do jogo e retorna ao menu.
         pygame.display.quit()
         menu()
         
@@ -150,7 +150,7 @@ def main():
         tela.blit(texto_motivo, (largura_tela // 2 - texto_motivo.get_width() // 2, altura_tela // 20))
         
         pygame.display.update()
-        pygame.time.delay(6000)
+        pygame.time.delay(6000) # A tela de game over aparece por 6 segundos,fecha a janela do jogo e retorna ao menu.
         pygame.display.quit()
         menu()
 
@@ -240,6 +240,13 @@ def main():
                     combust1.x = 0
                     combust1.y = random.randint(100, largura_tela - 100)
                     combustivel += 40
+
+                for tiros1 in tiro:
+                    if tiros1.colliderect(combust1):
+                        tiro.remove(tiros1)
+                        combust1.x = 0
+                        combust1.y = random.randint(100, largura_tela - 100)
+                        
                     
 
                         
